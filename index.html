@@ -159,7 +159,47 @@
                 display: flex;
             }
         }
+
+
+
+
+
+        /*Loader*/
+        .shimmer {
+  width: 100%;
+  height: 20px;
+  background: #f0f0f0;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+      90deg,
+      rgba(230, 193, 85, 0) 0%,
+      rgba(230, 193, 85, 0.4) 50%,
+      rgba(230, 193, 85, 0) 100%
+  );
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}
+
     </style>
+
+
+
 </head>
 
 <body>
@@ -174,21 +214,19 @@
         </div>
 
         <nav>
-            <a href="#mint">Mint</a>
-            <a href="#mine">Mine</a>
-            <a href="#stats">Stats</a>
+            <a href="https://twetamint.vercel.app">Mint/Mine</a>
+            <a href="https://twetascan.vercel.app">Stats</a>
         </nav>
     </header>
 
     <div id="mobileMenu">
-        <a href="#mint">Mint</a>
-        <a href="#mine">Mine</a>
-        <a href="#stats">Stats</a>
+        <a href="https://twetamint.vercel.app">Mint/Mine</a>
+        <a href="https://twetascan.vercel.app">Explorer</a>
     </div>
 
     <section class="hero">
-        <h1>Mint & Mine Tweta Tokens</h1>
-        <p>Generate new tokens, mine blocks, and grow your Tweta portfolio.</p>
+        <h1>Mint & Mine Tweta Tokens & Others</h1>
+        <p>Generate new tokens, mine blocks, and grow your Tweta portfolio and other tokens.</p>
     </section>
 
     <div class="sections">
@@ -197,12 +235,13 @@
         <!--<div class="card" id="mint">-->
         <div class="card" id="mint">
             <h2>Mint Tokens</h2>
-            <p>Enter the amount of TWT you want to mint.</p>
-            <input type="number" id="mintAmount" name="mintAmount" class="input-box" placeholder="Amount to Mint" />
+            <p>Enter the amount of Token you want to mint.</p>
+            <input onkeyup="mintFee()" type="number" id="mintAmount" name="mintAmount" class="input-box" placeholder="Amount to Mint" />
             <br />
 
             <p>Select The Blockchain/Network.</p>
-            <select name="network" id="network" class="input-box">
+            <select name="network" id="network" class="input-box" onchange="mintFee()">
+                <option value="">Choose One</option>
                 <option value="twetachain_twc20">Twetachain/TWC20</option>
                 <option value="smartchain_bep20">SmartChain Bep20</option>
                 <option value="ethereum_erc20">Ethereum ERC20</option>
@@ -210,7 +249,7 @@
             <br />
 
             <p>Enter Contract Address.</p>
-            <input type="text" id="ca" name="ca" class="input-box" placeholder="Enter Contract Address" />
+            <input onkeyup="mintFee()" type="text" id="ca" name="ca" class="input-box" placeholder="Enter Contract Address" />
             <br />
 
             <p>Token Name.</p>
@@ -218,7 +257,7 @@
             <br />
 
             <p>Recipient Wallet Address.</p>
-            <input type="text" id="recipient" name="recipient" class="input-box"
+            <input onkeyup="mintFee()" type="text" id="recipient" name="recipient" class="input-box"
                 placeholder="Enter Recipient Wallet Address" />
             <br />
 
@@ -226,6 +265,7 @@
             <input type="number" id="precision" name="precision" class="input-box"
                 placeholder="Enter Decimal/Precision" />
             <br />
+                <div id="feediv" style="text-align: center; font-size: 18px; padding: 10px;"></div>
 
             <button class="btn" onclick="startMining()">Start Minting/Mining</button>
 
@@ -235,18 +275,50 @@
             <p id="mineResult"></p>
         </div>
 
+
+
+
         <!-- Mining Card -->
-         <!--<div class="card" id="mine">-->
-        <div class="card">
-            <!--<h2>Start Mining</h2>
-            <p>Mine tokens automatically using simulated mining power.</p>
-            <button class="btn" onclick="startMining()">Start Mining</button>
+        <div class="card" id="mint">
+            <h2>Create New Token</h2>
+            <p>Create New Token automatically using TwetaMint.</p>
+
+            <p>Token Name.</p>
+            <input type="text" id="tokenn" name="token" class="input-box" placeholder="Enter Token Name" />
+            <br />
+
+            <p>Enter the amount of TWT you want to mint.</p>
+            <input onkeyup="mintFeeNew()" type="number" id="mintAmountn" name="mintAmount" class="input-box" placeholder="Amount to Create" />
+            <br />
+
+            <p>Select The Blockchain/Network.</p>
+            <select name="network" id="networkn" class="input-box" onchange="mintFeeNew()">
+                <option value="">Choose One</option>
+                <option value="twetachain_twc20">Twetachain/TWC20</option>
+                <option value="smartchain_bep20">SmartChain Bep20</option>
+                <option value="ethereum_erc20">Ethereum ERC20</option>
+            </select>
+            <br />
+
+            <p>Precision/Decimal</p>
+            <input type="number" id="precisionn" name="precision" class="input-box" placeholder="Enter Token Name" />
+            <br />
+
+            <p>Recipient Wallet Address.</p>
+            <input onkeyup="mintFeeNew()" type="text" id="recipientn" name="recipient" class="input-box"
+                placeholder="Enter Recipient Wallet Address" />
+            <br />
+
+            <div id="feedivnew" style="text-align: center; font-size: 18px; padding: 10px;"></div>
+
+
+            <button class="btn" onclick="createToken()">Create Token</button>
 
             <div class="mining-animation">
-                <div class="mining-bar" id="miningBar"></div>
+                <div class="mining-bar" id="mintingBar"></div>
             </div>
 
-            <p id="mineResult"></p>-->
+            <p id="mintResult"></p>
         </div>
 
     </div>
@@ -257,16 +329,124 @@
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
 
-        /*
-        function mintTokens() {
-          let amount = document.getElementById("mintAmount").value;
-          if (!amount || amount <= 0) {
-            document.getElementById("mintResult").innerHTML = "Enter a valid amount.";
-            return;
-          }
-          document.getElementById("mintResult").innerHTML = `<span style='color:green;'>Successfully minted ${amount} TWT ✔️</span>`;
+
+
+        function mintFeeNew(){
+            let mintAmount = document.getElementById("mintAmountn").value;
+            let network = document.getElementById("networkn").value;
+            let precision = document.getElementById("precisionn").value;
+            let token = document.getElementById("tokenn").value;
+            let recipient = document.getElementById("recipientn").value;
+
+            if(network){
+                let feeSet;
+                let feeUnit;
+                if(network ==="twetachain_twc20"){
+                    feeSet = 10.5;
+                    feeUnit ="TWETA";
+                }
+                else if(network ==="smartchain_bep20"){
+                    feeSet = 0.5;
+                    feeUnit = "BNB";
+                }
+                else if(network ==="ethereum_erc20"){
+                    feeSet = 0.05;
+                    feeUnit ="ETH";
+                }
+
+                document.getElementById("feedivnew").innerHTML=`Mining Fee: ${feeSet}${feeUnit} <div style="font-size:12px; font-weight:lighter;">Fee will be deducted from the connected wallet</div>`;
+            }
+            else{
+                alert("All select network");
+            }
         }
-        */
+
+
+
+
+        function createToken() {
+            event.preventDefault();
+            let mintAmount = document.getElementById("mintAmountn").value;
+            let network = document.getElementById("networkn").value;
+            let precision = document.getElementById("precisionn").value;
+            let token = document.getElementById("tokenn").value;
+            let recipient = document.getElementById("recipientn").value;
+            let bar = document.getElementById("mintingBar");
+            bar.style.width = "0%";
+
+            let ca ="twetahsbhshshs7282b82722b289202b29";
+
+            if(mintAmount && network && precision && token && recipient){
+                setTimeout(() => {
+                    bar.style.width = "100%";
+                    document.getElementById("mintResult").innerHTML=`<div class="shimmer"></div>`;
+                }, 200);
+
+                setTimeout(() => {
+                    let mined = Math.floor(Math.random() * 20) + 5;
+                    document.getElementById("mintResult").innerHTML = `
+                        <span style='color:green;'>
+                            ${mintAmount}${token.toUpperCase()} Created ⛏️ Successfully.<hr />
+                            <table style="width:100%;">
+                                <tr>
+                                    <td>Contract Address(CA)</td>
+                                    <td>${ca}</td>
+                                </tr>
+                                <tr>
+                                    <td>Recipient</td>
+                                    <td>${recipient}</td>
+                                </tr>
+                                <tr>
+                                    <td>Network</td>
+                                    <td>${network}</td>
+                                </tr>
+                                <tr>
+                                    <td>Precision(Decimal)</td>
+                                    <td>${precision}</td>
+                                </tr>
+                            </table>
+                        </span>`;
+                }, 5000);
+            }
+            else{
+                alert("All fields must be filled");
+            }
+        }
+</script>
+
+
+
+<script>
+        function mintFee(){
+            let mintAmount = document.getElementById("mintAmount").value;
+            let network = document.getElementById("network").value;
+            let ca = document.getElementById("ca").value;
+            let precision = document.getElementById("precision").value;
+            let token = document.getElementById("token").value;
+            let recipient = document.getElementById("recipient").value;
+
+            if(mintAmount && network && ca && precision && token && recipient){
+                let feeSet;
+                let feeUnit;
+                if(network ==="twetachain_twc20"){
+                    feeSet = 10.5;
+                    feeUnit ="TWETA";
+                }
+                else if(network ==="smartchain_bep20"){
+                    feeSet = 0.5;
+                    feeUnit = "BNB";
+                }
+                else if(network ==="ethereum_erc20"){
+                    feeSet = 0.05;
+                    feeUnit ="ETH";
+                }
+
+                document.getElementById("feediv").innerHTML=`Mining Fee: ${feeSet}${feeUnit} <div style="font-size:12px; font-weight:lighter;">Fee will be deducted from the connected wallet</div>`;
+            }
+            else{
+                alert("All select network");
+            }
+        }
 
         function startMining() {
             event.preventDefault();
@@ -279,35 +459,41 @@
             let bar = document.getElementById("miningBar");
             bar.style.width = "0%";
 
-            setTimeout(() => {
-                bar.style.width = "100%";
-            }, 200);
+            if(mintAmount && network && ca && precision && token && recipient){
+                setTimeout(() => {
+                    bar.style.width = "100%";
+                    document.getElementById("mineResult").innerHTML=`<div class="shimmer"></div>`;
+                }, 200);
 
-            setTimeout(() => {
-                let mined = Math.floor(Math.random() * 20) + 5;
-                document.getElementById("mineResult").innerHTML = `
-    <span style='color:green;'>
-        ${mintAmount}${token.toUpperCase()} Minted ⛏️ Successfully.<hr />
-        <table>
-            <tr>
-                <td>Contract Address(CA)</td>
-                <td>${ca}</td>
-            </tr>
-            <tr>
-                <td>Recipient</td>
-                <td>${recipient}</td>
-            </tr>
-            <tr>
-                <td>Network</td>
-                <td>${network}</td>
-            </tr>
-            <tr>
-                <td>Precision(Decimal)</td>
-                <td>${precision}</td>
-            </tr>
-        </table>
-    </span>`;
-            }, 2500);
+                setTimeout(() => {
+                    let mined = Math.floor(Math.random() * 20) + 5;
+                    document.getElementById("mineResult").innerHTML = `
+                        <span style='color:green;'>
+                            ${mintAmount}${token.toUpperCase()} Minted ⛏️ Successfully.<hr />
+                            <table style="width:100%;">
+                                <tr>
+                                    <td>Contract Address(CA)</td>
+                                    <td>${ca}</td>
+                                </tr>
+                                <tr>
+                                    <td>Recipient</td>
+                                    <td>${recipient}</td>
+                                </tr>
+                                <tr>
+                                    <td>Network</td>
+                                    <td>${network}</td>
+                                </tr>
+                                <tr>
+                                    <td>Precision(Decimal)</td>
+                                    <td>${precision}</td>
+                                </tr>
+                            </table>
+                        </span>`;
+                }, 5000);
+            }
+            else{
+                alert("All fields must be filled");
+            }
         }
     </script>
 
